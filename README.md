@@ -1,15 +1,4 @@
-# Proyecto base para servidor express con handlebars
+# Desafío - Servidores Welcome World
 
-Este es un proyecto base para un servidor express con handlebars.
-
-## Instalación
-
-```
-npm install
-```
-
-## Ejecución
-
-```
-npm run dev
-```
+Este servidor con Express que permita crear, leer, renombrar y eliminar
+archivos alojados en el servidor por medio de las rutas correspondientes
