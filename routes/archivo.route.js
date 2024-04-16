@@ -7,11 +7,18 @@ const router = Router()
 
 const __dirname = import.meta.dirname;
 
+// Función para obtener la fecha actual en formato dd/mm/yyyy
+function obtenerFechaActual() {
+    const fecha = new Date();
+    const dia = fecha.getDate() < 10 ? '0' + fecha.getDate() : fecha.getDate();
+    const mes = (fecha.getMonth() + 1) < 10 ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1);
+    const año = fecha.getFullYear();
+    return `${dia}-${mes}-${año}`;
+}
+
 // PATH /archivos
 
 router.get('/', (req, res) => {
-
-    // query params query string
     const { success, error } = req.query
 
     return res.render('archivos', { success, error })
@@ -20,7 +27,6 @@ router.get('/', (req, res) => {
 // crear los archivos
 router.post('/crear', async (req, res) => {
     try {
-        // req.body
         const { archivo, contenido } = req.body
 
         if (!archivo || !contenido || !archivo.trim() || !contenido.trim()) {
@@ -33,11 +39,15 @@ router.post('/crear', async (req, res) => {
             strict: true
         })
 
-        const ruta = path.join(__dirname, `../data/archivos/${slug}.txt`)
-        // crear un archivo
-        await writeFile(ruta, contenido)
+        const fechaActual = obtenerFechaActual();
+        const nuevoNombreArchivo = `${fechaActual}-${slug}.txt`;
 
-        return res.status(201).redirect('/archivos?success=se creo el archivo con éxito')
+        const ruta = path.join(__dirname, `../data/archivos/${nuevoNombreArchivo}`);
+
+        // Escribir el contenido en el archivo
+        await writeFile(ruta, contenido);
+
+        return res.status(201).redirect('/archivos?success=se creo el archivo con éxito');
     } catch (error) {
         console.log(error)
         return res.status(500).redirect('/archivos?error=error al crear el archivo')
@@ -45,6 +55,7 @@ router.post('/crear', async (req, res) => {
 
 })
 
+//leer archivos
 router.get('/leer', async (req, res) => {
     try {
         const { archivo } = req.query
@@ -68,6 +79,7 @@ router.get('/leer', async (req, res) => {
     }
 })
 
+// renombrar archivos
 router.post('/renombrar', async (req, res) => {
     try {
 
@@ -90,7 +102,7 @@ router.post('/renombrar', async (req, res) => {
 
         await rename(viejaRuta, nuevaRuta)
 
-        return res.status(200).redirect('/archivos?success=se renombró con éxito el archivo')
+        return res.status(200).redirect(`/archivos?success=se renombró con éxito el archivo ${slug} a: ${nuevoSlug}`)
     } catch (error) {
         console.log(error)
         if (error.code === 'ENOENT') {
@@ -100,7 +112,7 @@ router.post('/renombrar', async (req, res) => {
     }
 })
 
-//eliminar archivo
+//eliminar archivos
 router.post('/eliminar', async (req, res) => {
     try {
         const { archivo } = req.body;
