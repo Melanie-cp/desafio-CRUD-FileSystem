@@ -1,0 +1,66 @@
+<h1 class="text-center">Products</h1>
+
+{{#if error}}
+
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Upps!</strong> {{error}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+{{/if }}
+
+{{#if success}}
+
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Great!</strong> {{success}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+{{/if }}
+
+<h2 class="display-6">Add Products</h2>
+<form action="/products" method="POST" class="mb-3">
+
+    <input type="text" placeholder="Ingese nombre" name="name" class="form-control my-2">
+    <input type="number" placeholder="Ingese precio" name="price" class="form-control my-2">
+    <button class="btn btn-sm btn-dark" type="submit">Agregar producto</button>
+
+</form>
+
+<h2 class="display-6">Order Products</h2>
+<div class="my-3">
+    <a href="/products?order=asc" class="btn btn-sm btn-dark">asc</a>
+    <a href="/products?order=desc" class="btn btn-sm btn-dark">desc</a>
+</div>
+
+<h2 class="display-6">Search Products</h2>
+<form action="/products">
+  <input type="text" name="search" placeholder="Search" class="form-control mb-2">
+  <button type="submit" class="btn btn-sm btn-dark">Search</button>
+</form>
+
+<ul class="list-group mt-3">
+
+    {{#each products }}
+
+    <li  class="list-group-item">
+        
+        {{ this.name }} - ${{ this.price }}
+
+        <a 
+          href="/products/delete/{{this.id}}"
+          class="btn btn-sm btn-outline-danger"
+        >
+          Delete
+        </a>
+
+        <a 
+            href="/products/edit/{{this.id}}"
+            class="btn btn-sm btn-outline-info"
+        >
+        Update
+        </a>
+    </li>
+
+    {{/each }}
+</ul>

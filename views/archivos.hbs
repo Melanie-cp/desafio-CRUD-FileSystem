@@ -1,0 +1,27 @@
+<h1>Crud de archivos</h1>
+
+{{#if error}}
+<div class="alert alert-danger">
+    {{error}}
+</div>
+{{/if}}
+
+{{#if success}}
+<div class="alert alert-success">
+    {{success}}
+</div>
+{{/if}}
+
+<h3>Crear un archivo</h3>
+<form action="/archivos/crear" method="POST">
+    <div class="form-group">
+        Nombre del archivo
+        <input name="archivo" class="form-control" />
+    </div>
+    <div class="form-group">
+        Contenido
+        <textarea name="contenido" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Crear archivo</button>
+</form>

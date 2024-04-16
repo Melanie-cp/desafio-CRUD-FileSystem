@@ -1,0 +1,10 @@
+
+<h1>Producto Edit</h1>
+
+<form action="/products/edit/{{product.id}}" method="POST">
+
+  <input type="text" placeholder="Ingese nombre" name="name" class="form-control my-2" value="{{product.name}}">
+  <input type="number" placeholder="Ingese precio" name="price" class="form-control my-2" value="{{product.price}}">
+  <button class="btn btn-success" type="submit">Update Product</button>
+
+</form>
